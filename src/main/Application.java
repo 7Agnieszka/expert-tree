@@ -18,6 +18,8 @@ public class Application {
 		// albo coœ innego tego typu..
 		Node tree = new Node("John");
 		tree.addValue("test");
+		tree.addValue("aest");
+		
 
 		
 	}

@@ -54,35 +54,31 @@ public class Node {
 	 * @return wêze³ drzewa zawieraj¹cy wartoœæ
 	 */
 	public Node addValue(String value) {
-
+		
+		if(hasValue(value)) return getNode(value);
 		if (root == null)
 			root = new Node(value);
 		else {
 			Node actual = root;
 			Node parent = null;
-
 			while (actual != null) {
 				parent = actual;
-				if (actual.left == null || actual.right == null) {
-					actual = null;
-				} else {
+				if (actual.value.compareTo(value) < 0) {
 					actual = actual.left;
+				} else {
+					actual = actual.right;
 				}
-
 			}
 
-			if (parent.left == null) {
+			if (parent.value.compareTo(value) < 0) {
 				parent.left = new Node(value);
 				parent.left.parent = parent;
-				parent = parent.left;
-			} else if (parent.right == null) {
+			} else {
 				parent.right = new Node(value);
 				parent.right.parent = parent;
-				parent = parent.left;
 			}
-			// return actual;
-			// return null;
 		}
+
 		return parent;
 
 		// TODO
@@ -93,16 +89,31 @@ public class Node {
 	 * Zwraca {@code Node} o wartoœci value, lub null jeœli w drzewie nie ma takiej
 	 * wartoœci.
 	 */
-	public Node getNode(String Value) {
+	public Node getNode(String value) {
+		Node actual = root;
+		if(!hasValue(value)) return null;
+		
+		while(actual.value != value)
+		{
+			if (actual.value.compareTo(value) < 0) {
+				actual = actual.left;
+			} else {
+				actual = actual.right;
+			}
+		}
+		
+		return actual;
 		// TODO
 
-		return null;
 	}
 
 	/**
 	 * @return true, dany obiekt node jest czêœci¹ drzewa, w przeciwnym razie false;
 	 */
 	public boolean hasNode(Node node) {
+		Node actual = root;
+		
+		
 		return false;
 	}
 
@@ -111,6 +122,20 @@ public class Node {
 	 *         false;
 	 */
 	public boolean hasValue(String value) {
-		return false;
+		//to jeszcze nie dzia³a
+		Node actual = root.left;
+		
+		while(actual.value != value)
+		{
+			if (actual.value.compareTo(value) < 0) {
+				if(actual.left == null) return false;
+				actual = actual.left;
+			} else {
+				if(actual.right == null) return false;
+				actual = actual.right;
+			}
+		}
+		
+		return true;
 	}
 }
