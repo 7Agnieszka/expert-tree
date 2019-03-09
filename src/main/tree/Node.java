@@ -13,24 +13,8 @@ public class Node {
 	Node parent;
 	Node left = null;
 	Node right = null;
+	
 
-	/*
-	 * public String getValue() { return value; }
-	 * 
-	 * public void setValue(String value) { this.value = value; }
-	 * 
-	 * public Node getParent() { return parent; }
-	 * 
-	 * public void setParent(Node parent) { this.parent = parent; }
-	 * 
-	 * public Node getLeft() { return left; }
-	 * 
-	 * public void setLeft(Node left) { this.left = left; }
-	 * 
-	 * public Node getRight() { return right; }
-	 * 
-	 * public void setRight(Node right) { this.right = right; }
-	 */
 
 	/**
 	 * Konstruktor
@@ -38,7 +22,7 @@ public class Node {
 	 * @param value wartoœæ wêz³a
 	 */
 	public Node(String value) {
-
+		if(root == null) root = this;
 		this.value = value;
 		System.out.println("Name of node: " + value);
 		// TODO
@@ -56,7 +40,7 @@ public class Node {
 	public Node addValue(String value) {
 		
 		if(hasValue(value)) return getNode(value);
-		if (root == null)
+	else if (root == null)
 			root = new Node(value);
 		else {
 			Node actual = root;
@@ -93,7 +77,7 @@ public class Node {
 		Node actual = root;
 		if(!hasValue(value)) return null;
 		
-		while(actual.value != value)
+		while(actual.value != value && root != null)
 		{
 			if (actual.value.compareTo(value) < 0) {
 				actual = actual.left;
@@ -112,20 +96,30 @@ public class Node {
 	 */
 	public boolean hasNode(Node node) {
 		Node actual = root;
+		String value = node.value;
+		while((actual.value != value)  && (root != null))
+		{
+			if (actual.value.compareTo(value) < 0) {
+				if(actual.left == null) return false;
+				actual = actual.left;
+			} else {
+				if(actual.right == null) return false;
+				actual = actual.right;
+			}
+		}
 		
+		return true;
 		
-		return false;
-	}
+		}
 
 	/**
 	 * @return true, jeœli w drzewie wystêpuje dana wartoœæ, w przeciwnym razie
 	 *         false;
 	 */
 	public boolean hasValue(String value) {
-		//to jeszcze nie dzia³a
-		Node actual = root.left;
+		Node actual = root;
 		
-		while(actual.value != value)
+		while((actual.value != value)  && (root != null))
 		{
 			if (actual.value.compareTo(value) < 0) {
 				if(actual.left == null) return false;
